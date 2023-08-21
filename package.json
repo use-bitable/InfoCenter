@@ -1,0 +1,29 @@
+{
+  "name": "nuxt-app",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "prepare": "husky install",
+    "lint": "npx prettier . --write"
+  },
+  "devDependencies": {
+    "@element-plus/nuxt": "^1.0.5",
+    "@nuxt/devtools": "latest",
+    "@sidebase/nuxt-auth": "^0.6.0-beta.4",
+    "@types/node": "^18.17.3",
+    "@vite-pwa/nuxt": "^0.1.0",
+    "@vueuse/nuxt": "^10.3.0",
+    "element-plus": "^2.3.9",
+    "husky": "^8.0.3",
+    "lint-staged": "^14.0.1",
+    "nuxt": "^3.6.5",
+    "prettier": "^3.0.2"
+  },
+  "lint-staged": {
+    "*.{js,css,md,ts,vue,json}": "prettier --write"
+  }
+}
