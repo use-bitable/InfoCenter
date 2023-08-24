@@ -1,0 +1,12 @@
+{
+  "theme": {
+    "Dark": "深色模式",
+    "Light": "浅色模式"
+  },
+  "menu": {
+    "Home": "首页",
+    "About": "关于",
+    "Appearance": "外观",
+    "Profile": "个人信息"
+  }
+}
