@@ -1,7 +1,7 @@
-import * as cryptojs from "crypto-js"
+import { default as CryptoJS } from "crypto-js"
 
-function MD5(src: cryptojs.lib.WordArray) {
-  return () => cryptojs.MD5(src).toString(CryptoJS.enc.Utf8)
+function MD5(src: CryptoJS.lib.WordArray) {
+  return () => CryptoJS.MD5(src).toString()
 }
 
 export function useCrypto(s: string, key?: string) {

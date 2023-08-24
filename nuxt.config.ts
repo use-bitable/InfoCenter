@@ -6,6 +6,9 @@ import VueI18nVitePlugin from "@intlify/unplugin-vue-i18n/vite"
 export default defineNuxtConfig({
   ssr: false,
   devtools: { enabled: true },
+  alias: {
+    types: resolve("./types.d.ts"),
+  },
   modules: [
     "@element-plus/nuxt",
     "@vueuse/nuxt",

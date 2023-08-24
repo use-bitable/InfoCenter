@@ -179,8 +179,9 @@ export declare type UserAuth = {
 
 export declare type Token = string
 
-export declare enum StatusCode {
+export enum StatusCode {
   success = 0,
+  failure = 1,
 }
 
 export declare interface Response {
