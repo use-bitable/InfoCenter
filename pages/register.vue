@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import { useI18n } from "vue-i18n"
-import { UserAuth } from "types"
+import { UserInfo } from "types"
 import { FormInstance, FormRules, ElMessage } from "element-plus"
 
 const { t } = useI18n()
 useHead({
-  title: t("menu.Login"),
+  title: t("registerForm.title"),
 })
 definePageMeta({
   auth: {
@@ -77,9 +77,18 @@ async function login(formEl: FormInstance | undefined) {
   })
 }
 
-const form = reactive<UserAuth>({
+const form = reactive({
   username: "",
   password: "",
+  verifyPassword: "",
+  id: "",
+  sex: "",
+  birthday: "",
+  group: "",
+  role: "",
+  grade: "",
+  ethnic: "",
+  applicationTime: null,
 })
 </script>
 <template>

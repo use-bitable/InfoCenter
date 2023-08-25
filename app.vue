@@ -7,16 +7,8 @@ useHead({
 
 <template>
   <el-config-provider>
-    <el-container>
-      <el-header style="padding: 0">
-        <Navigation />
-      </el-header>
-      <el-main>
-        <NuxtPage />
-      </el-main>
-      <el-footer>
-        <Footer />
-      </el-footer>
-    </el-container>
+    <NuxtLayout>
+      <NuxtPage />
+    </NuxtLayout>
   </el-config-provider>
 </template>

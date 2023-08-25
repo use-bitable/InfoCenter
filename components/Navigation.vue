@@ -17,7 +17,11 @@ console.log(route)
     >
       <el-menu-item class="logo">
         <div>
-          <el-icon><SvgoLogo /></el-icon>
+          <el-icon
+            style="color: var(--color)"
+            color="#1296db"
+            ><SvgoLogo
+          /></el-icon>
           支部党建信息库
         </div>
       </el-menu-item>

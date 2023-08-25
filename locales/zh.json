@@ -10,5 +10,21 @@
     "Profile": "个人信息",
     "Login": "登录",
     "Logout": "退出登录"
+  },
+  "loginForm": {
+    "username": "学号",
+    "password": "密码",
+    "login": "登录",
+    "noEmpty": "{field}不能为空",
+    "register": "注册",
+    "title": "登录"
+  },
+  "registerForm": {
+    "username": "学号",
+    "password": "密码",
+    "login": "登录",
+    "noEmpty": "{field}不能为空",
+    "register": "注册",
+    "title": "注册"
   }
 }
