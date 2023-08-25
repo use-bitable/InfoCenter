@@ -6,6 +6,7 @@ import VueI18nVitePlugin from "@intlify/unplugin-vue-i18n/vite"
 export default defineNuxtConfig({
   ssr: false,
   devtools: { enabled: true },
+  spaLoadingTemplate: "./loading.html",
   alias: {
     types: resolve("./types.d.ts"),
   },

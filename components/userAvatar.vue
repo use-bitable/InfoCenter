@@ -42,11 +42,11 @@ const avatar = computed(() => avatars[props.sex])
     class="avatar-container"
     trigger="click"
     :hide-on-click="false"
-    :disabled="status !== 'authenticated'"
+    :disabled="status === 'unauthenticated'"
   >
     <div>
       <el-avatar
-        v-if="status === 'authenticated'"
+        v-if="status !== 'unauthenticated'"
         class="avatar"
         size="default"
       >
@@ -56,7 +56,7 @@ const avatar = computed(() => avatars[props.sex])
         v-else
         type="primary"
         @click="navigateTo('/login')"
-        >Login</el-button
+        >{{ $t("menu.Login") }}</el-button
       >
     </div>
     <template #dropdown>
@@ -97,12 +97,22 @@ const avatar = computed(() => avatars[props.sex])
         >
           <ThemeChoose />
         </el-dropdown-item>
-        <el-dropdown-item>
-          <el-button
-            type="danger"
-            @click="signOut({ redirect: true, callbackUrl: '/' })"
-            >Logout</el-button
+        <el-dropdown-item divided>
+          <div
+            style="
+              display: flex;
+              align-items: center;
+              width: 100%;
+              justify-content: center;
+            "
           >
+            <el-button
+              type="danger"
+              @click="signOut({ redirect: true, callbackUrl: '/login' })"
+            >
+              {{ $t("menu.Logout") }}
+            </el-button>
+          </div>
         </el-dropdown-item>
       </el-dropdown-menu>
     </template>

@@ -7,6 +7,8 @@
     "Home": "首页",
     "About": "关于",
     "Appearance": "外观",
-    "Profile": "个人信息"
+    "Profile": "个人信息",
+    "Login": "登录",
+    "Logout": "退出登录"
   }
 }
