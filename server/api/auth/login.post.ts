@@ -1,16 +1,17 @@
-import { UserAuth, Response, StatusCode } from "types"
+import { UserAuth, LoginResponse, StatusCode } from "types"
 import { useBitable } from "../../utils/useBase"
 import { useCrypto } from "../../utils/useCrypto"
-import { default as jwt } from "jsonwebtoken"
+import { useJWT } from "../../utils/useJWT"
+import { H3Event } from "h3"
 
-export default eventHandler(async (e) => {
-  const { username, password } = await readBody(e)
+export default eventHandler(async (e: H3Event): Promise<LoginResponse> => {
+  const { username, password } = (await readBody(e)) as UserAuth
   const { searchRecords, getOptionName, updateRecord } = useBitable()
   const records = await searchRecords(
     process.env.BASE_AUTH_INFO_TABLE as string,
     "username",
     username,
-    ["password", "username", "name", "group"],
+    ["password", "username", "name", "group", "permission"],
   )
   const user: UserAuth = {
     username,
@@ -19,11 +20,21 @@ export default eventHandler(async (e) => {
   if (records) {
     const record = records[0]
     if (user.password === record.fields["password"]) {
-      const token = jwt.sign(
+      const { sign } = useJWT()
+      const token = sign(
         {
           username,
           recordId: record.record_id,
-          refreshTime: Number(new Date()),
+          // @ts-ignore
+          permission: record.fields["permission"],
+          //@ts-ignore
+          name: record.fields["name"][0].text,
+          group: await getOptionName(
+            process.env.BASE_BASIC_INFO_TABLE as string,
+            "党小组",
+            //@ts-ignore
+            record.fields["group"][0],
+          ),
         },
         process.env.AUTH_SECRET as string,
       )
@@ -40,28 +51,19 @@ export default eventHandler(async (e) => {
         code: StatusCode.success,
         message: "Login success",
         data: {
-          token,
-          username,
-          //@ts-ignore
-          name: record.fields["name"][0].text,
-          group: await getOptionName(
-            process.env.BASE_BASIC_INFO_TABLE as string,
-            "党小组",
-            //@ts-ignore
-            record.fields["group"][0],
-          ),
+          token: token,
         },
       }
     } else {
-      return {
-        code: StatusCode.failure,
-        message: "Wrong password",
-      }
+      throw createError({
+        status: 403,
+        statusText: "Wrong password",
+      })
     }
   } else {
-    return {
-      code: StatusCode.failure,
-      message: "No username",
-    }
+    throw createError({
+      status: 403,
+      statusText: "No username",
+    })
   }
 })

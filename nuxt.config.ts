@@ -47,12 +47,32 @@ export default defineNuxtConfig({
   auth: {
     provider: {
       type: "local",
+      endpoints: {
+        getSession: { path: "/session", method: "post" },
+      },
       pages: {
         login: "/login",
+      },
+      token: {
+        signInResponseTokenPointer: "/data/token",
+      },
+      sessionDataType: {
+        name: "string",
+        username: "string",
+        recordId: "string",
+        group: "string",
+        permission: "string[]",
       },
     },
     globalAppMiddleware: {
       isEnabled: true,
+    },
+    session: {
+      // Whether to refresh the session every time the browser window is refocused.
+      enableRefreshOnWindowFocus: true,
+
+      // Whether to refresh the session every `X` milliseconds. Set this to `false` to turn it off. The session will only be refreshed if a session already exists.
+      enableRefreshPeriodically: 2000,
     },
   },
 })

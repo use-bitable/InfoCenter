@@ -1,14 +1,23 @@
+/**
+ * 性别
+ */
 export declare enum Sex {
-  male = "male",
-  female = "female",
-  other = "other",
+  male = "男",
+  female = "女",
+  other = "其他",
 }
 
-export declare enum Permission {
+/**
+ * 权限
+ */
+export enum Permission {
   admin = 0,
   common = 1,
 }
 
+/**
+ * 职位
+ */
 export declare enum Post {
   secretary = "书记",
   secondarySecretary = "副书记",
@@ -17,12 +26,18 @@ export declare enum Post {
   discipliner = "纪检委员",
 }
 
+/**
+ * 党小组
+ */
 export declare enum Group {
-  one = 1,
-  two = 2,
-  three = 3,
+  one = "一小组",
+  two = "二小组",
+  three = "三小组",
 }
 
+/**
+ * 政治面貌
+ */
 export declare enum Role {
   masses = "群众", // 群众
   leagueMember = "共青团员", // 共青团员
@@ -31,21 +46,38 @@ export declare enum Role {
   fullPartyMember = "正式党员", // 正式党员
 }
 
+/**
+ * 在校状态
+ */
 export declare enum SchoolStatus {
   graduation = 0, // 毕业
   reading = 1, // 在读
   rollOut = 2, // 转出
 }
 
+/**
+ * Unix时间戳
+ *
+ * @Unit `ms`
+ */
 export declare type TimeStamp = number
 
+/**
+ * 谈话人信息
+ */
 export declare type Interlocutor = {
   username: string
   name: string
   time: TimeStamp
-  record?: string // 谈话记录电子版链接
+  /**
+   * 谈话记录电子版链接
+   */
+  record?: string
 }
 
+/**
+ * 培养联系人信息
+ */
 export declare type Cultivator = {
   username: string
   name: string
@@ -53,6 +85,9 @@ export declare type Cultivator = {
   end?: TimeStamp
 }
 
+/**
+ * 用户信息
+ */
 export declare interface UserInfo {
   /**
    * 学号
@@ -177,15 +212,44 @@ export declare type UserAuth = {
   password: string
 }
 
+/**
+ * 用户登录JWT令牌
+ *
+ * @Origin https://ct8hv7vfy1.feishu.cn/base/AlbRbDCbFawVLCsJaoScsus2nsg?table=tblsho0FlOfPn08q&view=vewv5om6Vu
+ */
 export declare type Token = string
 
+/**
+ * 服务端返回处理结果状态
+ */
 export enum StatusCode {
   success = 0,
   failure = 1,
+  error = 2,
 }
 
-export declare interface Response {
+/**
+ * 用户Session
+ */
+export declare interface UserSession {
+  username: string
+  group: Group
+  permission: Permission[]
+  name: string
+  recordId: string
+}
+
+/**
+ * 服务端API响应体
+ */
+export declare interface Response<ResponseData> {
   code: StatusCode
-  data: any
+  data: ResponseData
   message?: string
 }
+
+export declare type LoginResponseData = {
+  token: string
+}
+
+export declare type LoginResponse = Response<LoginResponseData>

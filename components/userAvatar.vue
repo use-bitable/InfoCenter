@@ -12,7 +12,21 @@ const props = defineProps({
   },
 })
 
-const { status, signOut, signIn } = useAuth()
+const { data } = useAuth()
+
+const { status, signOut, token } = useAuth()
+const name = ref(data.value?.name)
+const group = ref(data.value?.group)
+
+watch(
+  () => data.value,
+  (newVal) => {
+    if (newVal) {
+      name.value = newVal?.name ?? ""
+      group.value = newVal?.group ?? ""
+    }
+  },
+)
 
 const avatars: { [key: string]: string } = {
   man: "/icons/manAvatar.png",
@@ -21,9 +35,6 @@ const avatars: { [key: string]: string } = {
 }
 
 const avatar = computed(() => avatars[props.sex])
-onMounted(() => {
-  console.log(status)
-})
 </script>
 
 <template>
@@ -89,8 +100,9 @@ onMounted(() => {
         <el-dropdown-item>
           <el-button
             type="danger"
-            @click="signOut()"
-          ></el-button>
+            @click="signOut({ redirect: true, callbackUrl: '/' })"
+            >Logout</el-button
+          >
         </el-dropdown-item>
       </el-dropdown-menu>
     </template>

@@ -11,13 +11,23 @@ definePageMeta({
 const { signIn, status } = useAuth()
 
 async function test() {
-  const res = await signIn({
-    username: "test",
-    password: "test",
-  })
-  console.log(status)
-  console.log("login test", res)
-  alert(res)
+  let res
+  try {
+    res = await signIn(
+      {
+        username: "202005070223",
+        password: "qian12345",
+      },
+      {
+        redirect: true,
+        callbackUrl: "/",
+      },
+    )
+    console.log(res)
+  } catch (e) {
+    console.log(status)
+    console.log("login test", e)
+  }
 }
 </script>
 <template>
