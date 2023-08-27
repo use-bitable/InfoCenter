@@ -172,9 +172,11 @@ function createRecord(base: BaseClient) {
     if (record) {
       return record
     } else {
+      console.log(data)
+      // return data
       throw createError({
         status: 400,
-        statusText: "Create record failed",
+        message: "Create record failed" + JSON.stringify(data),
       })
     }
   }

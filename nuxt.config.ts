@@ -10,6 +10,9 @@ export default defineNuxtConfig({
   alias: {
     types: resolve("./types.d.ts"),
   },
+  // typescript: {
+  //   strict: true
+  // },
   modules: [
     "@element-plus/nuxt",
     "@vueuse/nuxt",
@@ -50,6 +53,7 @@ export default defineNuxtConfig({
       type: "local",
       endpoints: {
         getSession: { path: "/session", method: "post" },
+        signUp: { path: "/register", method: "post" },
       },
       pages: {
         login: "/login",

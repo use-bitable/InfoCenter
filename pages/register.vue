@@ -2,7 +2,6 @@
 import { useI18n } from "vue-i18n"
 import { UserInfo, Sex, TimeStamp, Group, Role, SchoolStatus } from "types"
 import { FormInstance, FormRules, ElMessage } from "element-plus"
-import { User } from "next-auth"
 
 const { t } = useI18n()
 useHead({
@@ -16,8 +15,14 @@ definePageMeta({
   layout: "login",
 })
 const error = useError()
+const now = useNow()
+const nowYear = now.value.getFullYear()
+const grades = Array.from({ length: nowYear - 2018 }, (_, i) => ({
+  label: `本科${nowYear - i}级`,
+  value: `本科${nowYear - i}级`,
+}))
 
-const { id, password, username } = useValidate()
+const { id, password, username, phone } = useValidate()
 
 const registerForm = ref()
 const inputAble = ref(true)
@@ -31,13 +36,14 @@ interface registerInfo {
   verifyPassword: string
   id: string
   sex: Sex
-  birthday: TimeStamp
+  birthday: string
   group: Group
   role: Role
   grade: string
   ethnic: string
   applicationTime: TimeStamp
   schoolStatus: SchoolStatus
+  phone: string
 }
 
 const rules = reactive<FormRules<registerInfo>>({
@@ -57,6 +63,25 @@ const rules = reactive<FormRules<registerInfo>>({
     {
       required: true,
       message: t("registerForm.noEmpty", { field: t("registerForm.name") }),
+      trigger: "blur",
+    },
+  ],
+  phone: [
+    {
+      required: true,
+      message: t("registerForm.noEmpty", { field: t("registerForm.phone") }),
+      trigger: "blur",
+    },
+    {
+      validator: (rule, value) => phone(value),
+      message: t("registerForm.phoneMessage"),
+      trigger: "blur",
+    },
+  ],
+  grade: [
+    {
+      required: true,
+      message: t("registerForm.noEmpty", { field: t("registerForm.grade") }),
       trigger: "blur",
     },
   ],
@@ -188,23 +213,26 @@ async function register(formEl: FormInstance | undefined) {
     if (valid) {
       isLoading.value = true
       try {
-        await signUp(
+        console.log(form)
+        const res = await signUp(
           {
             userAuth: {
               username: form.username,
               password: useCrypto(form.password).SHA256(),
             },
             userInfo: {
+              username: form.username,
               name: form.name,
               sex: form.sex,
-              birthday: form.birthday,
+              birthday: Number(form.birthday),
               id: form.id,
               group: form.group,
               schoolStatus: form.schoolStatus,
-              applicationTime: form.applicationTime,
+              applicationTime: Number(form.applicationTime),
               grade: form.grade,
               ethnic: form.ethnic,
               role: form.role,
+              phone: form.phone,
             },
           },
           {
@@ -212,10 +240,7 @@ async function register(formEl: FormInstance | undefined) {
             callbackUrl: "/",
           },
         )
-        ElMessage({
-          type: "success",
-          message: "登陆成功",
-        })
+        console.log("registerres", res)
       } catch (e) {
         console.log(e)
       }
@@ -237,10 +262,11 @@ const form = reactive({
   birthday: "",
   group: "",
   role: "",
-  grade: "",
+  grade: null,
   ethnic: "",
-  applicationTime: null,
+  applicationTime: "",
   schoolStatus: "在校",
+  phone: "",
 })
 </script>
 <template>
@@ -291,9 +317,20 @@ const form = reactive({
           >
             <el-input
               v-model="form.name"
-              :prefix-icon="ElIconUser"
               :placeholder="$t('registerForm.name')"
             ></el-input>
+          </el-form-item>
+          <el-form-item
+            :label="$t('registerForm.grade')"
+            prop="grade"
+          >
+            <el-select-v2
+              v-model="form.grade"
+              :placeholder="$t('registerForm.grade')"
+              :options="grades"
+              filterable
+            >
+            </el-select-v2>
           </el-form-item>
           <el-form-item
             :label="$t('registerForm.sex')"
@@ -326,6 +363,15 @@ const form = reactive({
                 >{{ i.name }}</el-option
               >
             </el-select>
+          </el-form-item>
+          <el-form-item
+            :label="$t('registerForm.phone')"
+            prop="phone"
+          >
+            <el-input
+              v-model="form.phone"
+              :placeholder="$t('registerForm.phone')"
+            ></el-input>
           </el-form-item>
           <el-form-item
             :label="$t('registerForm.birthday')"
@@ -361,6 +407,16 @@ const form = reactive({
                 >{{ $t(`registerForm.${v}`) }}</el-option
               >
             </el-select>
+          </el-form-item>
+          <el-form-item
+            :label="$t('registerForm.applicationTime')"
+            prop="applicationTime"
+          >
+            <el-date-picker
+              v-model="form.applicationTime"
+              type="date"
+              :placeholder="$t('registerForm.applicationTime')"
+            />
           </el-form-item>
           <el-form-item
             :label="$t('registerForm.group')"
