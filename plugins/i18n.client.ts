@@ -1,5 +1,5 @@
 import { createI18n } from "vue-i18n"
-import zh from "../locales/zh.json"
+import zh from "~/assets/locales/zh.json"
 
 export default defineNuxtPlugin(({ vueApp }) => {
   const { language } = useNavigatorLanguage()
