@@ -1,6 +1,5 @@
 import { UserAuth, LoginResponse, StatusCode } from "types"
 import { useBitable } from "../../utils/useBase"
-import { useCrypto } from "../../utils/useCrypto"
 import { useJWT } from "../../utils/useJWT"
 import { H3Event } from "h3"
 
@@ -15,7 +14,7 @@ export default eventHandler(async (e: H3Event): Promise<LoginResponse> => {
   )
   const user: UserAuth = {
     username,
-    password: useCrypto(password).MD5(),
+    password,
   }
   if (records) {
     const record = records[0]

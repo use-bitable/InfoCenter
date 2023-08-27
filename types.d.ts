@@ -1,7 +1,7 @@
 /**
  * 性别
  */
-export declare enum Sex {
+export enum Sex {
   male = "男",
   female = "女",
   other = "其他",
@@ -18,7 +18,7 @@ export enum Permission {
 /**
  * 职位
  */
-export declare enum Post {
+export enum Post {
   secretary = "书记",
   secondarySecretary = "副书记",
   publicity = "宣传委员",
@@ -29,7 +29,7 @@ export declare enum Post {
 /**
  * 党小组
  */
-export declare enum Group {
+export enum Group {
   one = "一小组",
   two = "二小组",
   three = "三小组",
@@ -38,10 +38,10 @@ export declare enum Group {
 /**
  * 政治面貌
  */
-export declare enum Role {
+export enum Role {
   masses = "群众", // 群众
   leagueMember = "共青团员", // 共青团员
-  activist = "正式党员", // 入党积极分子
+  activist = "入党积极分子", // 入党积极分子
   reservePartyMember = "预备党员", // 预备党员
   fullPartyMember = "正式党员", // 正式党员
 }
@@ -49,10 +49,10 @@ export declare enum Role {
 /**
  * 在校状态
  */
-export declare enum SchoolStatus {
-  graduation = 0, // 毕业
-  reading = 1, // 在读
-  rollOut = 2, // 转出
+export enum SchoolStatus {
+  graduation = "毕业", // 毕业
+  reading = "在读", // 在读
+  rollOut = "转出", // 转出
 }
 
 /**
@@ -210,6 +210,7 @@ export declare interface UserInfo {
 export declare type UserAuth = {
   username: string
   password: string
+  permission?: Permission[]
 }
 
 /**
@@ -252,4 +253,48 @@ export declare type LoginResponseData = {
   token: string
 }
 
+export declare type FieldsResponseData = {
+  name?: string
+  type?: FieldType
+  property?: any
+  description?: {
+    disable_sync?: boolean
+    text?: string
+  }
+}[]
+
 export declare type LoginResponse = Response<LoginResponseData>
+
+// export declare type FieldsResponse = Response<>
+
+export enum OptionsAllowedTable {
+  BASE_ETHNIC_TABLE = "BASE_ETHNIC_TABLE",
+}
+
+export declare interface OptionsQuery {
+  table: OptionsAllowedTable
+  field: string
+}
+
+export enum FieldType {
+  Text = 1,
+  Number = 2,
+  SingleSelect = 3,
+  MultiSelect = 4,
+  DateTime = 5,
+  CheckBox = 7,
+  Member = 11,
+  Phone = 13,
+  Url = 15,
+  Attachment = 17,
+  Link = 18,
+  Formula = 20,
+  MultiLink = 21,
+  Location = 22,
+  Group = 23,
+  CreateDate = 1001,
+  ModifiedTime = 1002,
+  Creator = 1003,
+  Modifier = 1004,
+  AutoNumber = 1005,
+}

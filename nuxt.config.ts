@@ -73,7 +73,7 @@ export default defineNuxtConfig({
       enableRefreshOnWindowFocus: true,
 
       // Whether to refresh the session every `X` milliseconds. Set this to `false` to turn it off. The session will only be refreshed if a session already exists.
-      enableRefreshPeriodically: 2000,
+      enableRefreshPeriodically: 60000,
     },
   },
 })

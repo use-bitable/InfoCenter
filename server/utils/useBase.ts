@@ -109,6 +109,77 @@ function getOptionName(base: BaseClient) {
   }
 }
 
+// function getFieldValues(base: BaseClient) {
+//   async function get(table: string, field: string, token?: string) {
+//     const res = await base.base.appTableRecord.list({
+//       path: {
+//         table_id: table,
+//       },
+//       params: {
+//         field_names: `["${field}"]`,
+//         page_size: 500,
+//         page_token: token,
+//       },
+//     })
+//     if (!res.data?.items) return []
+//     const values = res.data.items.map((item) => item.fields[field])
+//     const hasMore = res.data?.has_more
+//     if (hasMore) {
+//       values.push(await get(table, field, res.data.page_token as string))
+//     }
+//     return values
+//   }
+//   return get
+// }
+
+function getFields(base: BaseClient) {
+  return async (table: string) => {
+    const res = await base.base.appTableField.list({
+      path: {
+        table_id: table,
+      },
+    })
+    const FieldsList = res.data?.items
+    if (FieldsList) {
+      const fields = FieldsList.map((item) => {
+        const field = {
+          name: item.field_name,
+          type: item.type,
+          property: item.property,
+          description: item.description,
+        }
+        return field
+      })
+      return fields
+    } else {
+      throw createError({
+        status: 400,
+        statusText: "Get fields failed",
+      })
+    }
+  }
+}
+
+function createRecord(base: BaseClient) {
+  return async (table: string, data: { fields: Record<string, any> }) => {
+    const res = await base.base.appTableRecord.create({
+      path: {
+        table_id: table,
+      },
+      data,
+    })
+    const record = res.data?.record
+    if (record) {
+      return record
+    } else {
+      throw createError({
+        status: 400,
+        statusText: "Create record failed",
+      })
+    }
+  }
+}
+
 export function useBitable() {
   const appToken = process.env.BASE_APP_TOKEN as string
   const personalBaseToken = process.env.BASE_PERSONAL_TOKEN as string
@@ -121,5 +192,7 @@ export function useBitable() {
     searchRecords: searchRecords(base),
     getOptionName: getOptionName(base),
     updateRecord: updateRecord(base),
+    getFields: getFields(base),
+    createRecord: createRecord(base),
   }
 }

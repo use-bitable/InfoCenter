@@ -21,10 +21,43 @@
   },
   "registerForm": {
     "username": "学号",
+    "name": "姓名",
     "password": "密码",
+    "verifyPassword": "确认密码",
+    "birthday": "生日",
+    "id": "身份证号",
+    "sex": "性别",
+    "group": "党小组",
+    "role": "政治面貌",
+    "grade": "年级",
+    "ethnic": "民族",
+    "applicationTime": "申请入党时间",
+    "schoolStatus": "在校状态",
     "login": "登录",
     "noEmpty": "{field}不能为空",
     "register": "注册",
-    "title": "注册"
+    "title": "注册",
+    "verifyPasswordMessage": "密码不相同",
+    "idMessage": "身份证号格式错误",
+    "passwordMessage": "密码长度为8~20，必须由字母、数字组成，可以含有特殊字符。",
+    "usernameMessage": "请输入12位学号",
+    "male": "男",
+    "female": "女",
+    "other": "其他",
+    "masses": "群众",
+    "leagueMember": "共青团员",
+    "activist": "入党积极分子",
+    "reservePartyMember": "预备党员",
+    "fullPartyMember": "正式党员",
+    "groups": {
+      "one": "一小组",
+      "two": "二小组",
+      "three": "三小组"
+    },
+    "schoolStatuses": {
+      "graduation": "毕业",
+      "reading": "在读",
+      "rollOut": "转专业"
+    }
   }
 }

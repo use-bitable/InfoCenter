@@ -58,10 +58,16 @@ async function login(formEl: FormInstance | undefined) {
     if (valid) {
       isLoading.value = true
       try {
-        await signIn(form, {
-          redirect: true,
-          callbackUrl: "/",
-        })
+        await signIn(
+          {
+            username: form.username,
+            password: useCrypto(form.password).SHA256(),
+          },
+          {
+            redirect: true,
+            callbackUrl: "/",
+          },
+        )
         ElMessage({
           type: "success",
           message: "登陆成功",
