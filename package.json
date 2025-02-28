@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "@base-open/node-sdk": "https://lf9-static.bytednsdoc.com/obj/eden-cn/jjjpceh7nulojvhj/node-sdk-0.0.12.tgz",
-    "crypto-js": "^4.1.1",
+    "crypto-js": "^4.2.0",
     "jsonwebtoken": "^9.0.1",
     "zod": "^3.22.2"
   }
